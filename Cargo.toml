@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "oxide-core",
+    "oxide-pkg",
+    "oxide-server"
+]
