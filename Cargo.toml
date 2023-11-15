@@ -4,6 +4,6 @@ members = ["oxide_common", "oxide_pkg", "oxide_repo_server", "oxide_repo_server/
 [workspace.package]
 version = "0.0.1"
 authors = ["Liz Ainslie"]
-description = "A short description of my package"
+description = "A decentralized package management tool from the future"
 documentation = "https://example.com/bar"
 edition = "2021"

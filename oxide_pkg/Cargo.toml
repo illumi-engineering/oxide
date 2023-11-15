@@ -9,4 +9,5 @@ edition.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+oxide_common = { path = "../oxide_common" }
 clap = { version = "4.0", features = ["derive"] }

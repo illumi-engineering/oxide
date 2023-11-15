@@ -9,4 +9,6 @@ edition.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
+oxide_common = { path = "../oxide_common" }
+serde = { version = "1.0.192", features = ["derive"] }
+toml = "0.8.8"

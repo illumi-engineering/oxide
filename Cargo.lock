@@ -1647,6 +1647,7 @@ name = "oxide_pkg"
 version = "0.0.1"
 dependencies = [
  "clap",
+ "oxide_common",
 ]
 
 [[package]]
@@ -1663,6 +1664,11 @@ dependencies = [
 [[package]]
 name = "oxide_system_daemon"
 version = "0.0.1"
+dependencies = [
+ "oxide_common",
+ "serde",
+ "toml 0.8.8",
+]
 
 [[package]]
 name = "parking"
