@@ -1,4 +1,0 @@
-pub mod local;
-
-pub const OXIDE_LOCAL_COMMUNICATION_PORT: u16 = 42068;
-pub const OXIDE_REPO_COMMUNICATION_PORT: u16 = 42069;

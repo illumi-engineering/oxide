@@ -1,5 +1,5 @@
 [workspace]
-members = ["oxide_common", "oxide_pkg", "oxide_repo_server", "oxide_repo_server/migration", "oxide_system_daemon"]
+members = ["oxide_pkg", "oxide_repo_server", "oxide_repo_server/migration"]
 
 [workspace.package]
 version = "0.0.1"
