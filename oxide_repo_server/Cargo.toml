@@ -1,5 +1,5 @@
 [package]
-name = "oxide-repo-server"
+name = "oxide_repo_server"
 version.workspace = true
 authors.workspace = true
 description.workspace = true
@@ -9,8 +9,11 @@ edition.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = {  version = "1.0", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 bcrypt = "0.15"
 sea-orm = { version = "0.12", features = [ "sqlx-sqlite", "runtime-tokio-native-tls", "macros", "with-uuid" ] }
+#
+#[workspace]
+#members = [ "migration" ]

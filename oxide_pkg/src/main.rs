@@ -15,7 +15,7 @@ fn main() {
         "server" => {
 
         }
-        "ïnit" => {
+        "init" => {
 
         }
         _ => {
