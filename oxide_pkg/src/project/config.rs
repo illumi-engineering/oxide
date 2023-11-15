@@ -2,7 +2,6 @@ use std::{fs, io};
 use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
-use toml::Table;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct ProjectNpmConfig {

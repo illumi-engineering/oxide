@@ -14,6 +14,7 @@ struct Args {
     config_file: PathBuf,
 }
 
+
 fn main() {
     let args = Args::from_args_safe().expect("[oxided] err: no config file specified");
     let config = OxideDaemonConfig::load(args.config_file);
@@ -22,20 +23,22 @@ fn main() {
 
     for stream in listener.incoming() {
         if let Ok(stream) = stream {
-            std::thread::spawn(move || {
-                handle_connection(stream).map_err(|e| eprintln!("[oxided] err: {}", e))
-            });
+            std::thread::spawn({let cfg = config.clone(); move || {
+                handle_connection(stream, cfg)
+                    .map_err(|e| eprintln!("[oxided] err: {}", e))
+            }});
         }
     }
 }
 
-fn handle_connection(stream: TcpStream) -> std::io::Result<()> {
+fn handle_connection(stream: TcpStream, config: OxideDaemonConfig) -> std::io::Result<()> {
     let mut protocol = Protocol::with_stream(stream)?;
 
     let request = protocol.read_message::<LocalRequest>()?;
 
     let resp = match request {
         LocalRequest::SyncProject { root_dir } => {
+            println!("[oxided] sync requested for {}", root_dir);
             LocalResponse::SyncProject { ok: true, message: String::new() }
         },
     };

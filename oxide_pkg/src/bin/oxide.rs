@@ -11,10 +11,9 @@ use oxide_pkg::ipc::protocol::Protocol;
 use oxide_pkg::ipc::request::LocalRequest;
 use oxide_pkg::ipc::response::LocalResponse;
 use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
-use oxide_pkg::project::config::ProjectConfig;
+use oxide_pkg::project::config::{ProjectConfig, ProjectNpmConfig};
 use oxide_pkg::project::{find_root_project, is_project, OxideProject, print_project};
 
-/// Search for a pattern in a file and display the lines that contain it.
 #[derive(StructOpt)]
 #[structopt(name = "oxide")]
 enum BaseCli {
@@ -25,48 +24,59 @@ enum BaseCli {
     Show,
 }
 
+fn sync_project(root_dir: PathBuf) {
+    let sync = LocalRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
+    Protocol::connect(SocketAddr::from(OXIDE_LOCAL_COMMUNICATION_ADDRESS))
+        .and_then(|mut client| {
+            client.send_message(&sync);
+            Ok(client)
+        })
+        .and_then(|mut client| client.read_message::<LocalResponse>())
+        .map(|resp| {
+            match resp {
+                LocalResponse::SyncProject{ ok, message } => {
+                    if ok { println!("[oxide] daemon successfully notified.") }
+                    else {
+                        println!("[oxide] err: there was a problem notifying the daemon, server returned '{}'", message)
+                    }
+                }
+                _ => {} // do nothing for other responses
+            }
+        });
+}
+
 fn main() {
     let args = BaseCli::from_args();
 
     match args {
         BaseCli::Init { npm } => {
             println!("[oxide] initializing project in current directory");
+            println!("Enter Project Name: ");
             let mut name = String::new();
             io::stdin().read_line(&mut name).expect("[oxide] err: no project name specified");
 
-            let config = ProjectConfig {
-                name,
+            let mut config = ProjectConfig {
+                name: name.trim().parse().unwrap(),
                 subprojects: None,
                 npm: None,
             };
 
-            let root_dir = fs::canonicalize(PathBuf::from("../../..")).unwrap();
+            let root_dir = fs::canonicalize(PathBuf::from(".")).unwrap();
 
-            let config_path = root_dir.join("../../../oxide.toml");
+            if npm {
+                config.npm = Some(ProjectNpmConfig {
+                    package_file: "package.json".parse().unwrap(),
+                })
+            }
+
+            let config_path = root_dir.join("oxide.toml");
             println!("[oxide] writing config to {}", config_path.to_str().unwrap());
             config.write(config_path).expect("[oxide] err: failed to write config");
 
-            let sync = LocalRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
-            Protocol::connect(SocketAddr::from(OXIDE_LOCAL_COMMUNICATION_ADDRESS))
-                .and_then(|mut client| {
-                    client.send_message(&sync);
-                    Ok(client)
-                })
-                .and_then(|mut client| client.read_message::<LocalResponse>())
-                .map(|resp| {
-                    match resp {
-                        LocalResponse::SyncProject{ ok, message } => {
-                            if ok { println!("[oxide] daemon successfully notified.") }
-                            else {
-                                println!("[oxide] err: there was a problem notifying the daemon, server returned '{}'", message)
-                            }
-                        }
-                        _ => {} // do nothing for other responses
-                    }
-                });
+            sync_project(root_dir);
         }
         BaseCli::Show => {
-            let cwd = fs::canonicalize(PathBuf::from("../../..")).unwrap();
+            let cwd = fs::canonicalize(PathBuf::from(".")).unwrap();
 
             if !is_project(cwd.clone()) {
                 eprintln!("[oxide] err: {} is not a valid oxide project.", cwd.to_str().unwrap());
