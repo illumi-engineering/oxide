@@ -6,8 +6,18 @@
 ### TO-DO
 - [ ] Decentralized package management system
   - [ ] Repository server
-  - [ ] Home Server
-    - [ ] Integrated Git Server
+  - [ ] Home server
 - [ ] Cli
-  - [ ] Installation Packages for all Package Managers
-  - [ ] Control Local Repository
+  - [ ] Installation packages for all package managers
+  - [ ] System install packages
+    - [ ] Windows
+      - [ ] Msi
+      - [ ] Exe
+    - [ ] MacOS
+      - [ ] Pkg
+    - [ ] Linux
+      - [ ] Deb
+      - [ ] Rpm
+  - [ ] Control local repository
+- [ ] System daemon
+  - [ ] Local repository server
