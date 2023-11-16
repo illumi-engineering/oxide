@@ -1,27 +1,63 @@
 pub mod config;
 
 use std::path::PathBuf;
+use crate::project::config::ProjectConfig;
 
+#[derive(Eq, PartialEq, Clone)]
 pub struct OxideProject {
-    pub config: config::ProjectConfig,
+    pub config: ProjectConfig,
     pub name: String,
+    pub directory: PathBuf,
     pub subprojects: Option<Vec<OxideProject>>,
 }
 
 impl OxideProject {
     pub fn load(root_path: PathBuf) -> Self {
-        let config = config::ProjectConfig::new(root_path.join("oxide.toml"));
+        let config = ProjectConfig::new(root_path.join("oxide.toml"));
 
         return OxideProject {
             config: config.clone(),
             name: config.name.clone(),
-            subprojects: match config.subprojects.clone() {
-                None => None,
-                Some(project_dirs) =>
-                    Some(project_dirs.iter().map(|dir|
-                        OxideProject::load(root_path.join(dir))
-                    ).collect())
-            },
+            directory: root_path.clone(),
+            subprojects: OxideProject::load_subprojects(root_path, config),
+        }
+    }
+
+    pub fn load_subprojects(root_path: PathBuf, config: ProjectConfig) -> Option<Vec<OxideProject>> {
+        match config.subprojects.clone() {
+            None => None,
+            Some(project_dirs) =>
+                Some(project_dirs.iter().map(|dir|
+                    OxideProject::load(root_path.join(dir))
+                ).collect())
+        }
+    }
+
+    pub fn resync(&mut self) -> bool {
+        let new_config = ProjectConfig::new(self.directory.join("oxide.toml"));
+
+        return if new_config == self.config { false }
+        else {
+            let mut changed = false;
+            self.config = new_config.clone();
+
+            let new_name = new_config.name.clone();
+            if self.name != new_name {
+                self.name = new_name;
+                changed = true;
+            }
+
+            match self.subprojects.clone() {
+                None => { },
+                Some(subprojects) => {
+                    for mut subproject in subprojects {
+                        let subproject_changed = subproject.resync();
+                        if subproject_changed { changed = true }
+                    }
+                }
+            };
+
+            changed
         }
     }
 }

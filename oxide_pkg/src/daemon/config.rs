@@ -25,9 +25,16 @@ pub struct OxideExternalRepositoriesConfig {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+pub struct OxideLocalRepositoriesConfig {
+    npm: Option<bool>,
+    maven: Option<bool>,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct OxideDaemonConfig {
     home_servers: Vec<OxideHomeServerConfig>,
     external_repositories: OxideExternalRepositoriesConfig,
+    local_repositories: OxideLocalRepositoriesConfig,
 }
 
 impl OxideDaemonConfig {

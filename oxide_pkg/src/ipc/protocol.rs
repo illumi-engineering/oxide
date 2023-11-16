@@ -20,7 +20,6 @@ impl Protocol {
     /// Establish a connection, wrap stream in BufReader/Writer
     pub fn connect(dest: SocketAddr) -> io::Result<Self> {
         let stream = TcpStream::connect(dest)?;
-        eprintln!("Connecting to {}", dest);
         Self::with_stream(stream)
     }
 

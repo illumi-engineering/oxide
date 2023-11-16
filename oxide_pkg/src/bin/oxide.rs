@@ -21,6 +21,7 @@ enum BaseCli {
         #[structopt(long)]
         npm: bool,
     },
+    Sync,
     Show,
 }
 
@@ -34,10 +35,10 @@ fn sync_project(root_dir: PathBuf) {
         .and_then(|mut client| client.read_message::<LocalResponse>())
         .map(|resp| {
             match resp {
-                LocalResponse::SyncProject{ ok, message } => {
-                    if ok { println!("[oxide] daemon successfully notified.") }
+                LocalResponse::SyncProject{ ok, changed } => {
+                    if ok { println!("[oxide] daemon successfully notified") }
                     else {
-                        println!("[oxide] err: there was a problem notifying the daemon, server returned '{}'", message)
+                        println!("[oxide] err: there was a problem notifying the daemon")
                     }
                 }
                 _ => {} // do nothing for other responses
@@ -61,7 +62,8 @@ fn main() {
                 npm: None,
             };
 
-            let root_dir = fs::canonicalize(PathBuf::from(".")).unwrap();
+            let cwd = fs::canonicalize(PathBuf::from(".")).unwrap();
+            let root_dir = find_root_project(cwd);
 
             if npm {
                 config.npm = Some(ProjectNpmConfig {
@@ -73,6 +75,11 @@ fn main() {
             println!("[oxide] writing config to {}", config_path.to_str().unwrap());
             config.write(config_path).expect("[oxide] err: failed to write config");
 
+            sync_project(root_dir);
+        }
+        BaseCli::Sync => {
+            let cwd = fs::canonicalize(PathBuf::from(".")).unwrap();
+            let root_dir = find_root_project(cwd);
             sync_project(root_dir);
         }
         BaseCli::Show => {

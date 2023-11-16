@@ -3,13 +3,13 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct ProjectNpmConfig {
     pub package_file: String,
 }
 
 /// An oxide project configuration
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct ProjectConfig {
     pub name: String,
     pub subprojects: Option<Vec<String>>,

@@ -3,5 +3,9 @@
   "external_repositories": {
     "npm": [],
     "maven": []
+  },
+  "local_repositories": {
+    "npm": true,
+    "maven": true
   }
 }
