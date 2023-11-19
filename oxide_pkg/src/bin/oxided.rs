@@ -3,10 +3,10 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 use oxide_pkg::daemon::config::OxideDaemonConfig;
 use oxide_pkg::daemon::project_manager::ProjectManager;
-use oxide_pkg::ipc::protocol::Protocol;
-use oxide_pkg::ipc::request::LocalRequest;
-use oxide_pkg::ipc::response::LocalResponse;
-use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
+use oxide_pkg::daemon::ipc::protocol::Protocol;
+use oxide_pkg::daemon::ipc::request::ClientToDaemonRequest;
+use oxide_pkg::daemon::ipc::response::DaemonToClientResponse;
+use oxide_pkg::daemon::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
 
 #[derive(StructOpt)]
 #[structopt(name = "oxided")]
@@ -18,7 +18,7 @@ struct Args {
 #[derive(Clone)]
 struct Ctx {
     config: OxideDaemonConfig,
-    project_manager:ProjectManager,
+    project_manager: ProjectManager,
 }
 
 fn main() {
@@ -42,10 +42,10 @@ fn main() {
 fn handle_connection(stream: TcpStream, mut ctx: Ctx) -> std::io::Result<()> {
     let mut protocol = Protocol::with_stream(stream)?;
 
-    let request = protocol.read_message::<LocalRequest>()?;
+    let request = protocol.read_message::<ClientToDaemonRequest>()?;
 
     let resp = match request {
-        LocalRequest::SyncProject { root_dir } => {
+        ClientToDaemonRequest::SyncProject { root_dir } => {
             println!("[oxided] sync requested for {}", root_dir);
             let updated = ctx.project_manager.sync(PathBuf::from(root_dir.clone()));
 
@@ -55,7 +55,7 @@ fn handle_connection(stream: TcpStream, mut ctx: Ctx) -> std::io::Result<()> {
                 println!("[oxided] project sync for {} successfully finished with no effective changes", root_dir.clone())
             }
 
-            LocalResponse::SyncProject { ok: true, changed: updated }
+            DaemonToClientResponse::SyncProject { ok: true, changed: updated }
         },
     };
 

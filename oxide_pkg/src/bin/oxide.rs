@@ -8,8 +8,8 @@ use std::process::exit;
 use clap::Parser;
 use structopt::StructOpt;
 use oxide_pkg::ipc::protocol::Protocol;
-use oxide_pkg::ipc::request::LocalRequest;
-use oxide_pkg::ipc::response::LocalResponse;
+use oxide_pkg::ipc::request::ClientToDaemonRequest;
+use oxide_pkg::ipc::response::DaemonToClientResponse;
 use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
 use oxide_pkg::project::config::{ProjectConfig, ProjectNpmConfig};
 use oxide_pkg::project::{find_root_project, is_project, OxideProject, print_project};
@@ -26,16 +26,16 @@ enum BaseCli {
 }
 
 fn sync_project(root_dir: PathBuf) {
-    let sync = LocalRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
+    let sync = ClientToDaemonRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
     Protocol::connect(SocketAddr::from(OXIDE_LOCAL_COMMUNICATION_ADDRESS))
         .and_then(|mut client| {
             client.send_message(&sync);
             Ok(client)
         })
-        .and_then(|mut client| client.read_message::<LocalResponse>())
+        .and_then(|mut client| client.read_message::<DaemonToClientResponse>())
         .map(|resp| {
             match resp {
-                LocalResponse::SyncProject{ ok, changed } => {
+                DaemonToClientResponse::SyncProject{ ok, changed } => {
                     if ok { println!("[oxide] daemon successfully notified") }
                     else {
                         println!("[oxide] err: there was a problem notifying the daemon")

@@ -13,13 +13,13 @@ impl ProjectManager {
             projects: HashMap::new(),
         }
     }
+
     pub fn sync(mut self, root: PathBuf) -> bool {
         let project = OxideProject::load(root.clone());
 
         return if self.projects.contains_key(root.to_str().unwrap()) {
             println!("[oxided] project at {} already registered, resyncing", root.to_str().unwrap());
-            let mut project: &mut OxideProject = self.projects.get_mut(root.to_str().unwrap()).unwrap();
-            project.resync()
+            self.projects.get_mut(root.to_str().unwrap()).unwrap().resync()
         } else {
             println!("[oxided] registering project at {}", root.to_str().unwrap());
             self.projects.insert(root.to_str().unwrap().parse().unwrap(), project);
