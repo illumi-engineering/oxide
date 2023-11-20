@@ -3,10 +3,10 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 use oxide_pkg::daemon::config::OxideDaemonConfig;
 use oxide_pkg::daemon::project_manager::ProjectManager;
-use oxide_pkg::daemon::ipc::protocol::Protocol;
-use oxide_pkg::daemon::ipc::request::ClientToDaemonRequest;
-use oxide_pkg::daemon::ipc::response::DaemonToClientResponse;
-use oxide_pkg::daemon::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
+use oxide_pkg::ipc::protocol::Protocol;
+use oxide_pkg::ipc::request::ClientToDaemonRequest;
+use oxide_pkg::ipc::response::DaemonToClientResponse;
+use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
 
 #[derive(StructOpt)]
 #[structopt(name = "oxided")]

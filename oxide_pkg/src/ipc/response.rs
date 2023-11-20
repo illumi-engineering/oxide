@@ -1,7 +1,7 @@
 
 use std::io::{self, Read, Write};
 use byteorder::{NetworkEndian, WriteBytesExt, ReadBytesExt};
-use crate::ipc::utils::{DeserializePacket, extract_string, SerializePacket};
+use super::utils::{DeserializePacket, extract_string, SerializePacket};
 
 pub enum DaemonToClientResponse {
     SyncProject { ok: bool, changed: bool },

@@ -1,7 +1,7 @@
 use std::io;
 use std::io::Write;
 use std::net::{SocketAddr, TcpStream};
-use crate::ipc::utils::{DeserializePacket, SerializePacket};
+use super::utils::{DeserializePacket, SerializePacket};
 
 pub struct Protocol {
     reader: io::BufReader<TcpStream>,
