@@ -1,0 +1,4 @@
+name = "oxide_pkg"
+
+#[npm]
+#package_file = "package.json"

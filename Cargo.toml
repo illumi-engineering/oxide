@@ -1,9 +1,34 @@
+[package]
+name = "oxide_pkg"
+readme = "README.md"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+edition.workspace = true
+
+[dependencies]
+oxide_ipc = { version = "=0.0.1", path = "crates/oxide_ipc" }
+oxide_core = { version = "=0.0.1", path = "crates/oxide_core" }
+oxide_config = { version = "=0.0.1", path = "crates/oxide_config" }
+
+clap = { version = "4.0", features = ["derive"] }
+structopt = "0.3.26"
+
 [workspace]
-members = ["oxide_pkg", "oxide_repo_server", "oxide_repo_server/migration"]
+members = [".", "crates/*"]
 
 [workspace.package]
 version = "0.0.1"
 authors = ["Liz Ainslie"]
 description = "A decentralized package management tool from the future"
-documentation = "https://example.com/bar"
+documentation = "https://oxide.illumi.sh/docs"
 edition = "2021"
+
+[workspace.dependencies]
+twelf = { version = "0.12.0" }
+serde_json = { version = "1.0.108" }
+serde = { version = "1.0.192" }
+byteorder = "1.5.0"
+node-semver = "2.1.0"
+toml = "0.8.8"

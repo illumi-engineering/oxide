@@ -1,0 +1,12 @@
+[package]
+name = "oxide_config"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+edition.workspace = true
+
+[dependencies]
+twelf = { workspace = true, features = ["json", "toml", "env", "clap"] }
+serde_json = { workspace = true }
+serde = { workspace = true, features = ["derive"] }

@@ -1,29 +1,29 @@
 pub mod config;
 
 use std::path::PathBuf;
-use crate::project::config::ProjectConfig;
 
 #[derive(Eq, PartialEq, Clone)]
 pub struct OxideProject {
-    pub config: ProjectConfig,
+    pub config: config::ProjectConfig,
     pub name: String,
     pub directory: PathBuf,
     pub subprojects: Option<Vec<OxideProject>>,
 }
 
 impl OxideProject {
-    pub fn load(root_path: PathBuf) -> Self {
-        let config = ProjectConfig::new(root_path.join("oxide.toml"));
+    /// Load an Oxide project at
+    pub fn load(root_dir: PathBuf) -> Self {
+        let config = config::ProjectConfig::new(root_dir.join("oxide.toml"));
 
         return OxideProject {
             config: config.clone(),
             name: config.name.clone(),
-            directory: root_path.clone(),
-            subprojects: OxideProject::load_subprojects(root_path, config),
+            directory: root_dir.clone(),
+            subprojects: OxideProject::load_subprojects(root_dir, config),
         }
     }
 
-    pub fn load_subprojects(root_path: PathBuf, config: ProjectConfig) -> Option<Vec<OxideProject>> {
+    fn load_subprojects(root_path: PathBuf, config: config::ProjectConfig) -> Option<Vec<OxideProject>> {
         match config.subprojects.clone() {
             None => None,
             Some(project_dirs) =>
@@ -33,8 +33,13 @@ impl OxideProject {
         }
     }
 
+    pub fn get_root(&self) -> Self {
+        OxideProject::load(find_root_project_dir(self.directory.into()))
+    }
+
+    /// Re-synchronize
     pub fn resync(&mut self) -> bool {
-        let new_config = ProjectConfig::new(self.directory.join("oxide.toml"));
+        let new_config = config::ProjectConfig::new(self.directory.join("oxide.toml"));
 
         return if new_config == self.config { false }
         else {
@@ -62,16 +67,14 @@ impl OxideProject {
     }
 }
 
-pub fn find_root_project(current_dir: PathBuf) -> PathBuf {
+pub fn find_root_project_dir(current_dir: PathBuf) -> PathBuf {
     let parent = current_dir.parent();
     return match parent {
-        None => {
-            current_dir
-        },
+        None => current_dir,
         Some(it) => {
             let parent_dir = it.to_path_buf();
             if is_project(parent_dir.clone()) {
-                find_root_project(parent_dir.clone())
+                find_root_project_dir(parent_dir.clone())
             } else {
                 current_dir
             }

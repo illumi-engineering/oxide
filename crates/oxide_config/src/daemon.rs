@@ -32,6 +32,7 @@ pub struct OxideLocalRepositoriesConfig {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct OxideDaemonConfig {
+    bind_port: i32,
     home_servers: Vec<OxideHomeServerConfig>,
     external_repositories: OxideExternalRepositoriesConfig,
     local_repositories: OxideLocalRepositoriesConfig,

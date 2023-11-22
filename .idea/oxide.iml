@@ -3,13 +3,18 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/oxide_common/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/oxide_pkg/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/oxide_repo_server/migration/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/oxide_repo_server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/oxide_system_daemon/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_config/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_home_server/migration/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_home_server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_ipc/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_pkg/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_project/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/oxide_common/target" />
-      <excludeFolder url="file://$MODULE_DIR$/oxide_pkg/target" />
+      <excludeFolder url="file://$MODULE_DIR$/crates/oxide_pkg/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

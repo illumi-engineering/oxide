@@ -1,5 +1,5 @@
 [package]
-name = "oxide_repo_server"
+name = "oxide_home_server"
 version.workspace = true
 authors.workspace = true
 description.workspace = true

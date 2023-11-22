@@ -6,8 +6,8 @@ use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::process::exit;
 use clap::Parser;
+use oxide_ipc::{IpcRequest, IpcResponse, OXIDE_IPC_LOCAL_ADDRESS, Protocol};
 use structopt::StructOpt;
-use oxide_pkg::ipc::protocol::Protocol;
 use oxide_pkg::ipc::request::ClientToDaemonRequest;
 use oxide_pkg::ipc::response::DaemonToClientResponse;
 use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
@@ -26,16 +26,16 @@ enum BaseCli {
 }
 
 fn sync_project(root_dir: PathBuf) {
-    let sync = ClientToDaemonRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
-    Protocol::connect(SocketAddr::from(OXIDE_LOCAL_COMMUNICATION_ADDRESS))
+    let sync = IpcRequest::SyncProject { root_dir: root_dir.as_path().to_str().unwrap().to_string() };
+    Protocol::connect(SocketAddr::from(OXIDE_IPC_LOCAL_ADDRESS))
         .and_then(|mut client| {
             client.send_message(&sync);
             Ok(client)
         })
-        .and_then(|mut client| client.read_message::<DaemonToClientResponse>())
+        .and_then(|mut client| client.read_message::<IpcResponse>())
         .map(|resp| {
             match resp {
-                DaemonToClientResponse::SyncProject{ ok, changed } => {
+                IpcResponse::SyncProject{ ok, changed } => {
                     if ok { println!("[oxide] daemon successfully notified") }
                     else {
                         println!("[oxide] err: there was a problem notifying the daemon")
@@ -63,7 +63,7 @@ fn main() {
             };
 
             let cwd = fs::canonicalize(PathBuf::from(".")).unwrap();
-            let root_dir = find_root_project(cwd);
+            let root_dir = find_root_projec(cwd);
 
             if npm {
                 config.npm = Some(ProjectNpmConfig {
