@@ -876,6 +876,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6fb8d784f27acf97159b40fc4db5ecd8aa23b9ad5ef69cdd136d3bc80665f0c0"
 
 [[package]]
+name = "glob"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
+
+[[package]]
 name = "h2"
 version = "0.3.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1568,12 +1574,14 @@ name = "oxide_plugin"
 version = "0.0.1"
 dependencies = [
  "oxide_core",
+ "oxide_ipc",
 ]
 
 [[package]]
 name = "oxide_project"
 version = "0.0.1"
 dependencies = [
+ "glob",
  "node-semver",
  "serde",
  "serde_json",
