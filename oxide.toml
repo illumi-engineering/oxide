@@ -1,2 +1,2 @@
 name = "oxide"
-subprojects = [ "oxide_pkg" ]
+subprojects = [ "crates/oxide_project" ]

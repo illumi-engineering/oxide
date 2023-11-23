@@ -8,11 +8,8 @@ use std::process::exit;
 use clap::Parser;
 use oxide_ipc::{IpcRequest, IpcResponse, OXIDE_IPC_LOCAL_ADDRESS, Protocol};
 use structopt::StructOpt;
-use oxide_pkg::ipc::request::ClientToDaemonRequest;
-use oxide_pkg::ipc::response::DaemonToClientResponse;
-use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
-use oxide_pkg::project::config::{ProjectConfig, ProjectNpmConfig};
-use oxide_pkg::project::{find_root_project, is_project, OxideProject, print_project};
+use oxide_config::{ProjectConfig, ProjectNpmConfig};
+use oxide_project::{find_root_project, is_project, OxideProject, print_project};
 
 #[derive(StructOpt)]
 #[structopt(name = "oxide")]

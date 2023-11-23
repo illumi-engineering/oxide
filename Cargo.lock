@@ -1558,7 +1558,16 @@ dependencies = [
  "oxide_config",
  "oxide_core",
  "oxide_ipc",
+ "oxide_plugin",
+ "oxide_project",
  "structopt",
+]
+
+[[package]]
+name = "oxide_plugin"
+version = "0.0.1"
+dependencies = [
+ "oxide_core",
 ]
 
 [[package]]

@@ -1,3 +1,1 @@
-pub trait Package {
-
-}
+pub trait Package {}

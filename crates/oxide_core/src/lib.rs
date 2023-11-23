@@ -1,3 +1,5 @@
-pub mod package;
-pub mod install;
+mod package;
 mod repository;
+mod utils;
+
+pub use {package::*, repository::*, utils::*};

@@ -1,4 +1,5 @@
 use std::{fs, io};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
@@ -11,9 +12,9 @@ use serde::{Deserialize, Serialize};
 /// An oxide project configuration
 #[derive(Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct ProjectConfig {
-    pub name: String,
-    pub subprojects: Option<Vec<String>>,
-    // pub npm: Option<ProjectNpmConfig>,
+    name: String,
+    subprojects: Option<Vec<String>>,
+    targets: HashMap<String, Box<dyn >>
 }
 
 impl ProjectConfig {

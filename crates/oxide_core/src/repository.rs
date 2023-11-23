@@ -1,5 +1,5 @@
 use crate::package::Package;
 
-trait Repository {
-    fn download_package(&self, pkg: Box<dyn Package>) -> Result<(), dyn std::error::Error>;
+pub trait Repository<T : Package> {
+    fn download_package(&self) -> T;
 }
