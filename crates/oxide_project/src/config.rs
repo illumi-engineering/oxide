@@ -1,24 +1,23 @@
 use std::{fs, io};
-use std::collections::HashMap;
 use std::path::PathBuf;
-
 use serde::{Deserialize, Serialize};
-
-// #[derive(Serialize, Deserialize, Clone, Eq, PartialEq)]
-// pub struct ProjectNpmConfig {
-//     pub package_file: String,
-// }
 
 /// An oxide project configuration
 #[derive(Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct ProjectConfig {
-    name: String,
-    subprojects: Option<Vec<String>>,
-    targets: HashMap<String, Box<dyn >>
+    pub name: String,
+    pub subprojects: Option<Vec<String>>,
 }
 
 impl ProjectConfig {
-    pub fn new(location: PathBuf) -> Self {
+    pub fn new(name: String) -> Self {
+        ProjectConfig {
+            name,
+            subprojects: None,
+        }
+    }
+
+    pub fn read_from(location: PathBuf) -> Self {
         let data = fs::read_to_string(location.clone())
             .expect(&*format!("[oxide] err: could not read config at {:?}", location.clone()));
 
@@ -28,7 +27,7 @@ impl ProjectConfig {
         return config;
     }
 
-    pub fn write(self, location: PathBuf) -> io::Result<()> {
+    pub fn write_to(self, location: PathBuf) -> io::Result<()> {
         let toml_val = toml::to_string_pretty(&self).unwrap();
         return fs::write(location, toml_val);
     }

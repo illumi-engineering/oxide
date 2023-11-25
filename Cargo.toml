@@ -10,12 +10,12 @@ edition.workspace = true
 [dependencies]
 oxide_ipc = { version = "=0.0.1", path = "crates/oxide_ipc" }
 oxide_core = { version = "=0.0.1", path = "crates/oxide_core" }
-oxide_config = { version = "=0.0.1", path = "crates/oxide_config" }
 oxide_plugin = { version = "=0.0.1", path = "crates/oxide_plugin" }
 oxide_project = { version = "=0.0.1", path = "crates/oxide_project" }
 
 clap = { version = "4.0", features = ["derive"] }
 structopt = "0.3.26"
+twelf = { version = "0.12.0" }
 
 [workspace]
 members = [".", "crates/*"]
@@ -35,3 +35,7 @@ byteorder = "1.5.0"
 node-semver = "2.1.0"
 toml = "0.8.8"
 glob = "0.3.1"
+typetag = "0.2.13"
+execute = "0.2.12"
+structopt = "0.3.26"
+package-json = "0.4.0"

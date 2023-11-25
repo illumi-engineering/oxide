@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
-use crate::project::OxideProject;
+use super::OxideProject;
 
 #[derive(Clone)]
 pub struct ProjectManager {

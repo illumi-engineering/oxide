@@ -126,6 +126,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "anyhow"
+version = "1.0.75"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4668cab20f66d8d020e1fbc0ebe47217433c1b6c8f2040faf858554e394ace6"
+
+[[package]]
 name = "arrayvec"
 version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -550,6 +556,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "darling"
+version = "0.14.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7b750cb3417fd1b327431a470f388520309479ab0bf5e323505daf0290cd3850"
+dependencies = [
+ "darling_core",
+ "darling_macro",
+]
+
+[[package]]
+name = "darling_core"
+version = "0.14.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "109c1ca6e6b7f82cc233a97004ea8ed7ca123a9af07a8230878fcfda9b158bf0"
+dependencies = [
+ "fnv",
+ "ident_case",
+ "proc-macro2",
+ "quote",
+ "strsim 0.10.0",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "darling_macro"
+version = "0.14.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4aab4dbc9f7611d8b55048a3a16d2d010c2c8334e46304b40ac1cc14bf3b48e"
+dependencies = [
+ "darling_core",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
 name = "data-encoding"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -584,6 +625,37 @@ checksum = "fcc3dd5e9e9c0b295d6e1e4d811fb6f157d5ffd784b8d202fc62eac8035a770b"
 dependencies = [
  "proc-macro2",
  "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "derive_builder"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8d67778784b508018359cbc8696edb3db78160bab2c2a28ba7f56ef6932997f8"
+dependencies = [
+ "derive_builder_macro",
+]
+
+[[package]]
+name = "derive_builder_core"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c11bdc11a0c47bc7d37d582b5285da6849c96681023680b906673c5707af7b0f"
+dependencies = [
+ "darling",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "derive_builder_macro"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ebcda35c7a396850a55ffeac740804b40ffec779b98fffbb1738f4033f0ee79e"
+dependencies = [
+ "derive_builder_core",
  "syn 1.0.109",
 ]
 
@@ -1100,6 +1172,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ident_case"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
+
+[[package]]
 name = "idna"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1436,13 +1514,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "old"
-version = "0.0.1"
-dependencies = [
- "execute",
-]
-
-[[package]]
 name = "once_cell"
 version = "1.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1526,17 +1597,26 @@ dependencies = [
 ]
 
 [[package]]
-name = "oxide_config"
+name = "oxide_core"
 version = "0.0.1"
 dependencies = [
  "serde",
  "serde_json",
- "twelf",
 ]
 
 [[package]]
-name = "oxide_core"
+name = "oxide_daemon"
 version = "0.0.1"
+dependencies = [
+ "execute",
+ "oxide_core",
+ "oxide_ipc",
+ "oxide_plugin",
+ "oxide_project",
+ "serde",
+ "serde_json",
+ "structopt",
+]
 
 [[package]]
 name = "oxide_home_server"
@@ -1557,16 +1637,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "oxide_npm"
+version = "0.0.1"
+dependencies = [
+ "node-semver",
+ "oxide_core",
+ "oxide_plugin",
+ "oxide_project",
+ "package-json",
+ "serde",
+ "serde_json",
+ "toml",
+]
+
+[[package]]
 name = "oxide_pkg"
 version = "0.0.1"
 dependencies = [
  "clap 4.4.8",
- "oxide_config",
  "oxide_core",
  "oxide_ipc",
  "oxide_plugin",
  "oxide_project",
  "structopt",
+ "twelf",
 ]
 
 [[package]]
@@ -1575,6 +1669,7 @@ version = "0.0.1"
 dependencies = [
  "oxide_core",
  "oxide_ipc",
+ "oxide_project",
 ]
 
 [[package]]
@@ -1585,7 +1680,19 @@ dependencies = [
  "node-semver",
  "serde",
  "serde_json",
- "toml 0.8.8",
+ "toml",
+]
+
+[[package]]
+name = "package-json"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "30346ca495e6afb794c27661280cb5e9c91d18f5f63b45171bd0e32662650922"
+dependencies = [
+ "anyhow",
+ "derive_builder",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -2709,15 +2816,6 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "0.5.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f4f7f0dd8d50a853a531c426359045b1998f04219d88799810762cd4ad314234"
-dependencies = [
- "serde",
-]
-
-[[package]]
-name = "toml"
 version = "0.8.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1a195ec8c9da26928f773888e0742ca3ca1040c6cd859c919c9f59c1954ab35"
@@ -2837,7 +2935,6 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror",
- "toml 0.5.11",
 ]
 
 [[package]]

@@ -1,12 +1,11 @@
+mod config;
+
 use std::net::{TcpListener, TcpStream};
 use std::path::PathBuf;
 use structopt::StructOpt;
-use oxide_pkg::daemon::config::OxideDaemonConfig;
-use oxide_pkg::daemon::project_manager::ProjectManager;
-use oxide_pkg::ipc::protocol::Protocol;
-use oxide_pkg::ipc::request::ClientToDaemonRequest;
-use oxide_pkg::ipc::response::DaemonToClientResponse;
-use oxide_pkg::ipc::OXIDE_LOCAL_COMMUNICATION_ADDRESS;
+use config::OxideDaemonConfig;
+use oxide_ipc::{IpcRequest, IpcResponse, OXIDE_IPC_LOCAL_ADDRESS, Protocol};
+use oxide_project::manager::ProjectManager;
 
 #[derive(StructOpt)]
 #[structopt(name = "oxided")]
@@ -23,8 +22,9 @@ struct Ctx {
 
 fn main() {
     let args = Args::from_args_safe().expect("[oxided] err: no config file specified");
-    let listener = TcpListener::bind(OXIDE_LOCAL_COMMUNICATION_ADDRESS).unwrap();
-    println!("[oxided] oxide daemon running at {}", OXIDE_LOCAL_COMMUNICATION_ADDRESS);
+    let config = OxideDaemonConfig::load(args.config_file.clone());
+    let listener = TcpListener::bind(config.bind_addr).unwrap();
+    println!("[oxided] oxide daemon running at {}", OXIDE_IPC_LOCAL_ADDRESS);
 
     for stream in listener.incoming() {
         if let Ok(stream) = stream {
@@ -42,10 +42,10 @@ fn main() {
 fn handle_connection(stream: TcpStream, mut ctx: Ctx) -> std::io::Result<()> {
     let mut protocol = Protocol::with_stream(stream)?;
 
-    let request = protocol.read_message::<ClientToDaemonRequest>()?;
+    let request = protocol.read_message::<IpcRequest>()?;
 
     let resp = match request {
-        ClientToDaemonRequest::SyncProject { root_dir } => {
+        IpcRequest::SyncProject { root_dir } => {
             println!("[oxided] sync requested for {}", root_dir);
             let updated = ctx.project_manager.sync(PathBuf::from(root_dir.clone()));
 
@@ -55,7 +55,7 @@ fn handle_connection(stream: TcpStream, mut ctx: Ctx) -> std::io::Result<()> {
                 println!("[oxided] project sync for {} successfully finished with no effective changes", root_dir.clone())
             }
 
-            DaemonToClientResponse::SyncProject { ok: true, changed: updated }
+            IpcResponse::SyncProject { ok: true, changed: updated }
         },
     };
 

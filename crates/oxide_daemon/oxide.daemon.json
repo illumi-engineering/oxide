@@ -1,0 +1,17 @@
+{
+  "bind_addr": "127.0.0.1:42068",
+  "home_servers": [],
+  "external_repositories": {
+    "npm": [
+      {
+        "uri": "https://registry.npmjs.org/",
+        "label": "npmjs"
+      }
+    ],
+    "maven": []
+  },
+  "local_repositories": {
+    "npm": true,
+    "maven": true
+  }
+}

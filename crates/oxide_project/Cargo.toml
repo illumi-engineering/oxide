@@ -7,8 +7,8 @@ documentation.workspace = true
 edition.workspace = true
 
 [dependencies]
-serde_json = { workspace = true }
+serde_json.workspace = true
 serde = { workspace = true, features = ["derive"] }
-node-semver = { workspace = true }
-toml = { workspace = true }
-glob = { workspace = true }
+node-semver.workspace = true
+toml.workspace = true
+glob.workspace = true

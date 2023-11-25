@@ -1,4 +1,4 @@
-name = "oxide_pkg"
+name = "oxide_daemon"
 
 #[npm]
 #package_file = "package.json"

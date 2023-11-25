@@ -10,13 +10,15 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/oxide_home_server/migration/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/oxide_home_server/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/oxide_ipc/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_pkg/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/oxide_project/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_core/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_daemon/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/oxide_npm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/oxide_plugin/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/oxide_common/target" />
-      <excludeFolder url="file://$MODULE_DIR$/crates/oxide_pkg/target" />
+      <excludeFolder url="file://$MODULE_DIR$/crates/oxide_daemon/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

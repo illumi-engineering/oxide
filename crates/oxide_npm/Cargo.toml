@@ -1,0 +1,19 @@
+[package]
+name = "oxide_npm"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+oxide_core = { version = "=0.0.1", path = "../oxide_core" }
+oxide_project = { version = "=0.0.1", path = "../oxide_project" }
+oxide_plugin = { version = "=0.0.1", path = "../oxide_plugin" }
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+node-semver.workspace = true
+toml.workspace = true
+package-json.workspace = true

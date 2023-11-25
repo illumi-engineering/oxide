@@ -1,0 +1,19 @@
+[package]
+name = "oxide_daemon"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+execute.workspace = true
+structopt.workspace = true
+serde_json.workspace = true
+serde = { workspace = true, features = ["derive"] }
+oxide_core = { version = "=0.0.1", path = "../oxide_core" }
+oxide_ipc = { version = "=0.0.1", path = "../oxide_ipc" }
+oxide_project = { version = "=0.0.1", path = "../oxide_project" }
+oxide_plugin = { version = "=0.0.1", path = "../oxide_plugin" }

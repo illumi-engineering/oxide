@@ -1,4 +1,5 @@
 pub mod config;
+pub mod manager;
 
 use std::path::PathBuf;
 
@@ -13,7 +14,7 @@ pub struct OxideProject {
 impl OxideProject {
     /// Load an Oxide project at
     pub fn load(root_dir: PathBuf) -> Self {
-        let config = config::ProjectConfig::new(root_dir.join("oxide.toml"));
+        let config = config::ProjectConfig::read_from(root_dir.join("oxide.toml"));
 
         return OxideProject {
             config: config.clone(),
@@ -34,12 +35,12 @@ impl OxideProject {
     }
 
     pub fn get_root(&self) -> Self {
-        OxideProject::load(find_root_project_dir(self.directory.into()))
+        OxideProject::load(find_root_project_dir(self.directory.clone()))
     }
 
     /// Re-synchronize
     pub fn resync(&mut self) -> bool {
-        let new_config = config::ProjectConfig::new(self.directory.join("oxide.toml"));
+        let new_config = config::ProjectConfig::read_from(self.directory.join("oxide.toml"));
 
         return if new_config == self.config { false }
         else {

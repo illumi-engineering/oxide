@@ -1,9 +1,16 @@
-use oxide_core::Package;
-use oxide_core::Repository;
+mod project;
+
+pub use {project::*};
+
 use oxide_core::NSID;
+use oxide_project::OxideProject;
 
-trait DaemonPlugin<T : Package> {
-    const IDENTIFIER: NSID;
+pub trait DaemonPlugin<S : DaemonPluginProjectScope + ?Sized> {
+    fn id() -> NSID;
 
-    fn register_repository(&self, name: String, repo: Box<dyn Repository<T>>);
+    fn use_project(&self, project: &OxideProject) -> S;
+}
+
+pub trait ClientPlugin {
+    fn id() -> NSID;
 }
