@@ -1,2 +1,2 @@
 name = "oxide"
-subprojects = [ "crates/oxide_project" ]
+subprojects = [ "crates/*" ]

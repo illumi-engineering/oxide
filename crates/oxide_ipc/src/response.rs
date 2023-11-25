@@ -5,13 +5,14 @@ use super::utils::{DeserializePacket, extract_string, SerializePacket};
 
 pub enum IpcResponse {
     SyncProject { ok: bool, changed: bool },
-
+    InstallProject { ok: bool },
 }
 
 impl From<&IpcResponse> for u8 {
     fn from(req: &IpcResponse) -> Self {
         match req {
             IpcResponse::SyncProject { .. } => 1,
+            IpcResponse::InstallProject { .. } => 2,
         }
     }
 }
@@ -33,6 +34,10 @@ impl SerializePacket for IpcResponse {
                 // buf.write_u16::<NetworkEndian>(message.len() as u16)?;
                 // buf.write_all(&message)?;
                 // bytes_written += 2 + message.len();
+            }
+            IpcResponse::InstallProject { ok } => {
+                buf.write_i8(*ok as i8)?;
+                bytes_written += 1;
             }
         }
         Ok(bytes_written)

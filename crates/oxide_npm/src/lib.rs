@@ -3,28 +3,27 @@ mod project;
 mod package;
 
 use std::str::FromStr;
-use package_json::PackageJsonManager;
-use oxide_core::{NSID};
-use oxide_plugin::{ClientPlugin, DaemonPlugin};
-use oxide_project::OxideProject;
-use crate::project::NpmProjectScope;
+use oxide_core::{GenericRepositoryConfig, NSID};
+use extism_pdk::*;
 
-const NPM_IDENTIFIER: NSID = NSID::from_str("npm").unwrap();
-
-pub struct OxideNpmDaemonPlugin {}
-
-impl DaemonPlugin<NpmProjectScope> for OxideNpmDaemonPlugin {
-    fn id(self) -> NSID { NPM_IDENTIFIER }
-
-    fn use_project(&self, project: &OxideProject) -> NpmProjectScope {
-        NpmProjectScope {
-            package_json: PackageJsonManager::with_file_path(project.directory.clone().join("package.json"))
-        }
-    }
+#[host_fn]
+extern "ExtismHost" {
+    fn get_repositories(key: &str) -> Json<Vec<GenericRepositoryConfig>>;
 }
 
-pub struct OxideNpmClientPlugin {}
+static NPM_IDENTIFIER: &str = "oxide:npm";
 
-impl ClientPlugin for OxideNpmClientPlugin {
-    fn id(self) -> NSID { NPM_IDENTIFIER }
+#[plugin_fn]
+pub fn id() -> FnResult<NSID> {
+    Ok(NSID::from_str(NPM_IDENTIFIER).unwrap())
+}
+
+#[plugin_fn]
+pub fn fetch_deps() -> FnResult<()> {
+    let repos = unsafe { get_repositories("npm").unwrap().0 };
+    for repo in repos {
+        let GenericRepositoryConfig { url, label } = repo;
+        // todo: download deps
+    }
+    Ok(())
 }

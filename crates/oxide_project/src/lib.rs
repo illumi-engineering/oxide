@@ -27,10 +27,17 @@ impl OxideProject {
     fn load_subprojects(root_path: PathBuf, config: config::ProjectConfig) -> Option<Vec<OxideProject>> {
         match config.subprojects.clone() {
             None => None,
-            Some(project_dirs) =>
-                Some(project_dirs.iter().map(|dir|
-                    OxideProject::load(root_path.join(dir))
-                ).collect())
+            Some(project_dirs) => {
+                let mut res_vec = Vec::new();
+
+                project_dirs.iter().for_each(|dir| {
+                    for entry in glob::glob(dir.as_str()).expect("Failed to read glob pattern") {
+                        res_vec.push(OxideProject::load(root_path.join(entry.unwrap())))
+                    }
+                });
+
+                Some(res_vec)
+            }
         }
     }
 

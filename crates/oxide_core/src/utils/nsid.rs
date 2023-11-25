@@ -1,8 +1,9 @@
 use std::fmt::{self, Display, Formatter};
 use std::ops;
 use std::str::FromStr;
+use extism_convert::{Error, FromBytes, ToBytes};
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Hash)]
 pub struct NSID {
     parts: Vec<String>
 }
@@ -10,7 +11,7 @@ pub struct NSID {
 impl NSID {
     const SEPARATOR: &'static str = ":";
 
-    pub fn from_parts(parts: Vec<String>) -> Self {
+    pub const fn from_parts(parts: Vec<String>) -> Self {
         Self {
             parts,
         }
@@ -62,5 +63,19 @@ impl FromStr for NSID {
 impl Display for NSID {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.parts.join(NSID::SEPARATOR))
+    }
+}
+
+impl ToBytes<'_> for NSID {
+    type Bytes = String;
+
+    fn to_bytes(&self) -> Result<Self::Bytes, Error> {
+        Ok(self.to_string())
+    }
+}
+
+impl FromBytes<'_> for NSID {
+    fn from_bytes(data: &[u8]) -> Result<Self, Error> {
+        Ok(Self::from_str(String::from_utf8(Vec::from(data)).unwrap().as_str()).unwrap())
     }
 }

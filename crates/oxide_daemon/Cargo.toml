@@ -9,11 +9,13 @@ edition.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-execute.workspace = true
-structopt.workspace = true
-serde_json.workspace = true
-serde = { workspace = true, features = ["derive"] }
-oxide_core = { version = "=0.0.1", path = "../oxide_core" }
-oxide_ipc = { version = "=0.0.1", path = "../oxide_ipc" }
 oxide_project = { version = "=0.0.1", path = "../oxide_project" }
 oxide_plugin = { version = "=0.0.1", path = "../oxide_plugin" }
+oxide_core = { version = "=0.0.1", path = "../oxide_core" }
+oxide_ipc = { version = "=0.0.1", path = "../oxide_ipc" }
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+structopt.workspace = true
+execute.workspace = true
+extism.workspace = true
+notify = "6.1.1"

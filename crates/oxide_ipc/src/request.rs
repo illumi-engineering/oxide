@@ -4,13 +4,14 @@ use super::utils::{DeserializePacket, extract_string, SerializePacket};
 
 pub enum IpcRequest {
     SyncProject { root_dir: String },
-    // Registries {}
+    InstallProject { project_dir: String, workspace: bool }
 }
 
 impl From<&IpcRequest> for u8 {
     fn from(req: &IpcRequest) -> Self {
         match req {
             IpcRequest::SyncProject { .. } => 1,
+            IpcRequest::InstallProject { .. } => 2,
         }
     }
 }
@@ -28,6 +29,16 @@ impl SerializePacket for IpcRequest {
                 buf.write_all(&root_dir)?;
                 bytes_written += 2 + root_dir.len()
             }
+            IpcRequest::InstallProject { project_dir, workspace } => {
+                // Write the variable length message string, preceded by it's length
+                let project_dir = project_dir.as_bytes();
+                buf.write_u16::<NetworkEndian>(project_dir.len() as u16)?;
+                buf.write_all(&project_dir)?;
+                bytes_written += 2 + project_dir.len();
+
+                buf.write_i8(*workspace as i8)?;
+                bytes_written += 1;
+            }
         }
         Ok(bytes_written)
     }
@@ -41,6 +52,10 @@ impl DeserializePacket for IpcRequest {
         match buf.read_u8()? {
             // Echo
             1 => Ok(IpcRequest::SyncProject { root_dir: extract_string(&mut buf)? }),
+            2 => Ok(IpcRequest::InstallProject {
+                project_dir: extract_string(&mut buf)?,
+                workspace: buf.read_i8().unwrap() != 0,
+            }),
             _ => Err(io::Error::new(
                 io::ErrorKind::InvalidData,
                 "Invalid Request Type",

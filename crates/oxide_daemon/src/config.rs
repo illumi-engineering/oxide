@@ -1,24 +1,14 @@
+use std::collections::HashMap;
 use std::fs;
 use std::net::SocketAddrV4;
 use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
+use oxide_core::GenericRepositoryConfig;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct OxideHomeServerConfig {
     alias: String,
     rpc_uri: String,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct OxideExternalNpmRepositoryConfig {
-    uri: String,
-    label: String,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct OxideExternalMavenRepositoryConfig {
-    uri: String,
-    label: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -37,7 +27,7 @@ pub struct OxideLocalRepositoriesConfig {
 pub struct OxideDaemonConfig {
     pub bind_addr: SocketAddrV4,
     pub home_servers: Vec<OxideHomeServerConfig>,
-    pub external_repositories: OxideExternalRepositoriesConfig,
+    pub external_repositories: HashMap<String, Vec<GenericRepositoryConfig>>,
     pub local_repositories: OxideLocalRepositoriesConfig,
 }
 
