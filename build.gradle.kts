@@ -4,3 +4,8 @@
  * This is a general purpose Gradle build.
  * To learn more about Gradle by exploring our Samples at https://docs.gradle.org/8.5/samples
  */
+plugins {
+    kotlin("jvm") version "1.9.22" apply false
+    id("io.ktor.plugin") version "3.0.0-beta-1" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
+}

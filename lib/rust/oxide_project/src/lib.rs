@@ -14,7 +14,7 @@ pub struct OxideProject {
 impl OxideProject {
     /// Load an Oxide project at
     pub fn load(root_dir: PathBuf) -> Self {
-        let config = config::ProjectConfig::read_from(root_dir.join("oxide.toml"));
+        let config = config::ProjectConfig::read_from(root_dir.join("../../../../oxide.toml"));
 
         return OxideProject {
             config: config.clone(),
@@ -47,7 +47,7 @@ impl OxideProject {
 
     /// Re-synchronize
     pub fn resync(&mut self) -> bool {
-        let new_config = config::ProjectConfig::read_from(self.directory.join("oxide.toml"));
+        let new_config = config::ProjectConfig::read_from(self.directory.join("../../../../oxide.toml"));
 
         return if new_config == self.config { false }
         else {
@@ -91,7 +91,7 @@ pub fn find_root_project_dir(current_dir: PathBuf) -> PathBuf {
 }
 
 pub fn is_project(current_directory: PathBuf) -> bool {
-    return current_directory.join("oxide.toml").exists();
+    return current_directory.join("../../../../oxide.toml").exists();
 }
 
 pub fn print_project(project: OxideProject, depth: usize) {

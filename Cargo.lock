@@ -866,41 +866,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "darling"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b750cb3417fd1b327431a470f388520309479ab0bf5e323505daf0290cd3850"
-dependencies = [
- "darling_core",
- "darling_macro",
-]
-
-[[package]]
-name = "darling_core"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "109c1ca6e6b7f82cc233a97004ea8ed7ca123a9af07a8230878fcfda9b158bf0"
-dependencies = [
- "fnv",
- "ident_case",
- "proc-macro2",
- "quote",
- "strsim 0.10.0",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "darling_macro"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4aab4dbc9f7611d8b55048a3a16d2d010c2c8334e46304b40ac1cc14bf3b48e"
-dependencies = [
- "darling_core",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
 name = "data-encoding"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -944,37 +909,6 @@ checksum = "fcc3dd5e9e9c0b295d6e1e4d811fb6f157d5ffd784b8d202fc62eac8035a770b"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "derive_builder"
-version = "0.12.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d67778784b508018359cbc8696edb3db78160bab2c2a28ba7f56ef6932997f8"
-dependencies = [
- "derive_builder_macro",
-]
-
-[[package]]
-name = "derive_builder_core"
-version = "0.12.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c11bdc11a0c47bc7d37d582b5285da6849c96681023680b906673c5707af7b0f"
-dependencies = [
- "darling",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "derive_builder_macro"
-version = "0.12.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ebcda35c7a396850a55ffeac740804b40ffec779b98fffbb1738f4033f0ee79e"
-dependencies = [
- "derive_builder_core",
  "syn 1.0.109",
 ]
 
@@ -1143,7 +1077,7 @@ dependencies = [
  "anyhow",
  "cbindgen",
  "extism-convert",
- "extism-manifest 1.0.0-rc3",
+ "extism-manifest",
  "glob",
  "libc",
  "serde",
@@ -1175,16 +1109,6 @@ dependencies = [
 
 [[package]]
 name = "extism-manifest"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22b0e600ec289630715ffdc11aca36a26297c3ab7908f14d5bbf3770d102bce7"
-dependencies = [
- "base64",
- "serde",
-]
-
-[[package]]
-name = "extism-manifest"
 version = "1.0.0-rc3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cfd2fb5a30af07c95bbc2918f2177c644afd3b84784a9d36af732ff9dbe9c373"
@@ -1192,32 +1116,6 @@ dependencies = [
  "base64",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "extism-pdk"
-version = "1.0.0-rc1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ef5a26316dcd0a963eb9904675417c39a1fcf25d4630385a5a1099f7f123458"
-dependencies = [
- "anyhow",
- "base64",
- "extism-convert",
- "extism-manifest 0.5.0",
- "extism-pdk-derive",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "extism-pdk-derive"
-version = "1.0.0-rc1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5640b8d57f1900efc413c8c608c1ec86dbb623df73de0b151e7debc5c9aaccfd"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.39",
 ]
 
 [[package]]
@@ -1717,12 +1615,6 @@ name = "id-arena"
 version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "25a2bc672d1148e28034f176e01fffebb08b35768468cc954630da77a1449005"
-
-[[package]]
-name = "ident_case"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "idna"
@@ -2376,7 +2268,6 @@ dependencies = [
  "notify",
  "oxide_core",
  "oxide_ipc",
- "oxide_plugin",
  "oxide_project",
  "serde",
  "serde_json",
@@ -2402,40 +2293,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "oxide_npm"
-version = "0.0.1"
-dependencies = [
- "extism-pdk",
- "node-semver",
- "oxide_core",
- "oxide_plugin",
- "oxide_project",
- "package-json",
- "serde",
- "serde_json",
- "toml 0.8.8",
-]
-
-[[package]]
 name = "oxide_pkg"
 version = "0.0.1"
 dependencies = [
  "clap 4.4.8",
  "oxide_core",
  "oxide_ipc",
- "oxide_plugin",
  "oxide_project",
  "structopt",
  "twelf",
-]
-
-[[package]]
-name = "oxide_plugin"
-version = "0.0.1"
-dependencies = [
- "oxide_core",
- "oxide_ipc",
- "oxide_project",
 ]
 
 [[package]]
@@ -2447,18 +2313,6 @@ dependencies = [
  "serde",
  "serde_json",
  "toml 0.8.8",
-]
-
-[[package]]
-name = "package-json"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30346ca495e6afb794c27661280cb5e9c91d18f5f63b45171bd0e32662650922"
-dependencies = [
- "anyhow",
- "derive_builder",
- "serde",
- "serde_json",
 ]
 
 [[package]]
