@@ -10,7 +10,6 @@ edition.workspace = true
 
 [dependencies]
 oxide_project = { version = "=0.0.1", path = "../oxide_project" }
-oxide_plugin = { version = "=0.0.1", path = "../oxide_plugin" }
 oxide_core = { version = "=0.0.1", path = "../oxide_core" }
 oxide_ipc = { version = "=0.0.1", path = "../oxide_ipc" }
 serde = { workspace = true, features = ["derive"] }
